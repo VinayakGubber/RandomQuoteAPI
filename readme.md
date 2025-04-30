@@ -55,7 +55,7 @@ https://random-quote-api-yourname.vercel.app/
 
 ## 🧰 API Endpoints
 
-| Method | Endpoint        | Description                            |
+| Method | Endpoint         | Description                            |
 |--------|------------------|----------------------------------------|
 | GET    | `/`              | Returns a simple welcome message       |
 | GET    | `/random`        | Returns one random quote from JSON     |
@@ -113,8 +113,3 @@ MIT — free to use, share, and modify.
 ## 💡 Why This Matters (Pitch)
 
 I built **RandomQuoteAPI** as a demonstration of developer-first tools: a lightweight backend utility that delivers consistent, fast responses with zero dependencies. Whether you're bootstrapping a frontend app or prototyping a motivation tool like **NoteSphere**, this API serves as a flexible foundation. It showcases clean API design, simple data control, and real-world deployment — without relying on external services.
-```
-
----
-
-Would you like me to help you generate a matching `quotes.json` starter file or a deploy-ready `vercel.json` for this project?
