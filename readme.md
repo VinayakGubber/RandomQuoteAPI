@@ -112,4 +112,4 @@ MIT — free to use, share, and modify.
 
 ## 💡 Why This Matters (Pitch)
 
-I built **RandomQuoteAPI** as a demonstration of developer-first tools: a lightweight backend utility that delivers consistent, fast responses with zero dependencies. Whether you're bootstrapping a frontend app or prototyping a motivation tool like **NoteSphere**, this API serves as a flexible foundation. It showcases clean API design, simple data control, and real-world deployment — without relying on external services.
+>I built **RandomQuoteAPI** as a demonstration of developer-first tools: a lightweight backend utility that delivers consistent, fast responses with zero dependencies. Whether you're bootstrapping a frontend app or prototyping a motivation tool like **NoteSphere**, this API serves as a flexible foundation. It showcases clean API design, simple data control, and real-world deployment — without relying on external services.
