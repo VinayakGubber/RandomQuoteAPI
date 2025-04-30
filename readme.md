@@ -12,7 +12,7 @@
 - ⚡ **Blazing fast** — built with Express.js  
 - 🔄 **CORS-enabled** — for frontend cross-origin use  
 - 🚀 **Deploy-ready** — Instant hosting on Vercel  
-- 🛠 **Plug & play utility** — originally built for [NoteSphere](#-built-for)  
+- 🛠 **Plug & play utility** — originally built for [NoteSphere](https://github.com/VinayakGubber/NoteSphere)  
 
 ---
 
