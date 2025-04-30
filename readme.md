@@ -1,8 +1,3 @@
-Here’s a polished, resume- and GitHub-ready `README.md` for your **RandomQuoteAPI**, styled to match the visual layout of your reference (with clear sections, markdown formatting, and good developer UX):
-
----
-
-```markdown
 # 🎯 RandomQuoteAPI
 
 > A minimalist, zero-dependency Node.js-powered REST API for delivering random inspirational quotes — self-contained, blazing fast, and Vercel-ready.
