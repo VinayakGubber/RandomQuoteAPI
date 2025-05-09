@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const fs = require("fs");
+const path = require("path");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -12,7 +13,8 @@ app.get("/", (req, res) => {
 });
 
 app.get("/random", (req, res) => {
-  const quotes = JSON.parse(fs.readFileSync("quotes.json", "utf8"));
+  const quotesPath = path.resolve(__dirname, "../quotes.json");
+  const quotes = JSON.parse(fs.readFileSync(quotesPath, "utf8"));
   const random = quotes[Math.floor(Math.random() * quotes.length)];
   res.json(random);
 });
