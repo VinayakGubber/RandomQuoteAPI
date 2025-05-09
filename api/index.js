@@ -9,7 +9,14 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 
 app.get("/", (req, res) => {
-  res.send("Welcome to the Random Quote API");
+  res.json({
+    message: "Welcome to the RandomQuoteAPI!",
+    endpoints: {
+      "/random": "Get a random inspirational quote",
+      "/quotes": "Access the complete list (if implemented)",
+      github: "https://github.com/VinayakGubber/RandomQuoteAPI",
+    },
+  });
 });
 
 app.get("/random", (req, res) => {
