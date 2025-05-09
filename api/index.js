@@ -14,11 +14,10 @@ Use /random to get a random inspirational quote.
 Source: https://github.com/VinayakGubber/RandomQuoteAPI`);
 });
 
-app.get("/random", (req, res) => {
-  const quotesPath = path.resolve(__dirname, "../quotes.json");
-  const quotes = JSON.parse(fs.readFileSync(quotesPath, "utf8"));
-  const random = quotes[Math.floor(Math.random() * quotes.length)];
-  res.json(random);
+app.get("/", (req, res) => {
+  res.send(`🎉 Welcome to RandomQuoteAPI!<br>
+Use <code>/random</code> to get a random inspirational quote.<br>
+Source: <a href="https://github.com/VinayakGubber/RandomQuoteAPI">GitHub</a>`);
 });
 
 app.get("/quotes", (req, res) => {
