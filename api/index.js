@@ -10,17 +10,25 @@ app.use(cors());
 
 app.get("/", (req, res) => {
   res.send(`
-     <div style="font-family: Arial, sans-serif; line-height: 1.6; padding: 20px;">
-      <h1 style="color: #4CAF50;"
-      Welcome to <em>RandomQuoteAPI</em>!</h1>
+    <div style="font-family: Arial, sans-serif; line-height: 1.6; padding: 20px;">
+      <h1 style="color: #4CAF50;"> Welcome to <em>RandomQuoteAPI</em>!</h1>
       <p>Use the following endpoints to explore inspirational quotes:</p>
       <ul>
         <li><code>/random</code> | Get a random inspirational quote</li>
-        <li><code>/quotes</code> |  View all quotes</li>
+         <p><strong>Source Code:</strong> <a href="https://vercel.com/vinayakgubbers-projects/random-quote-api/random" target="_blank">Get a random inspirational quote</a></p>
+        <li><code>/quotes</code> | View all quotes</li>
+         <p><strong>Source Code:</strong> <a href="https://vercel.com/vinayakgubbers-projects/random-quote-api/quotes" target="_blank">View all quotes</a></p>
       </ul>
       <p><strong>Source Code:</strong> <a href="https://github.com/VinayakGubber/RandomQuoteAPI" target="_blank">GitHub Repository</a></p>
     </div>
-  `);
+    `);
+});
+
+app.get("/random", (req, res) => {
+  const quotesPath = path.resolve(__dirname, "../quotes.json");
+  const quotes = JSON.parse(fs.readFileSync(quotesPath, "utf8"));
+  const random = quotes[Math.floor(Math.random() * quotes.length)];
+  res.json(random);
 });
 
 app.get("/quotes", (req, res) => {
