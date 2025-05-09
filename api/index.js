@@ -15,9 +15,9 @@ app.get("/", (req, res) => {
       <p>Use the following endpoints to explore inspirational quotes:</p>
       <ul>
         <li><code>/random</code> | Get a random inspirational quote</li>
-         <p><strong>Source Code:</strong> <a href="https://vercel.com/vinayakgubbers-projects/random-quote-api/random" target="_blank">Get a random inspirational quote</a></p>
+         <p><strong>Source Code:</strong> <a href="https://random-quote-api-five.vercel.app/random" target="_blank">Get a random inspirational quote</a></p>
         <li><code>/quotes</code> | View all quotes</li>
-         <p><strong>Source Code:</strong> <a href="https://vercel.com/vinayakgubbers-projects/random-quote-api/quotes" target="_blank">View all quotes</a></p>
+         <p><strong>Source Code:</strong> <a href="https://random-quote-api-five.vercel.app/quotes" target="_blank">View all quotes</a></p>
       </ul>
       <p><strong>Source Code:</strong> <a href="https://github.com/VinayakGubber/RandomQuoteAPI" target="_blank">GitHub Repository</a></p>
     </div>
