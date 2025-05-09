@@ -19,4 +19,10 @@ app.get("/random", (req, res) => {
   res.json(random);
 });
 
+app.get("/quotes", (req, res) => {
+  const quotesPath = path.resolve(__dirname, "../quotes.json");
+  const quotes = JSON.parse(fs.readFileSync(quotesPath, "utf8"));
+  res.json(quotes);
+});
+
 module.exports = app;
