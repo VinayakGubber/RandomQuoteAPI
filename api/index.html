@@ -1,16 +1,4 @@
-const express = require("express");
-const cors = require("cors");
-const fs = require("fs");
-const path = require("path");
-
-const app = express();
-const PORT = process.env.PORT || 3000;
-
-app.use(cors());
-
-app.get("/", (req, res) => {
-  res.send(`
-   <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -447,21 +435,3 @@ app.get("/", (req, res) => {
     </div>
   </body>
 </html>
-
-    `);
-});
-
-app.get("/random", (req, res) => {
-  const quotesPath = path.resolve(__dirname, "../quotes.json");
-  const quotes = JSON.parse(fs.readFileSync(quotesPath, "utf8"));
-  const random = quotes[Math.floor(Math.random() * quotes.length)];
-  res.json(random);
-});
-
-app.get("/quotes", (req, res) => {
-  const quotesPath = path.resolve(__dirname, "../quotes.json");
-  const quotes = JSON.parse(fs.readFileSync(quotesPath, "utf8"));
-  res.json(quotes);
-});
-
-module.exports = app;
