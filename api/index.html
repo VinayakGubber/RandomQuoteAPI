@@ -1,437 +1,291 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>RandomQuoteAPI</title>
-    <link
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-      rel="stylesheet"
-    />
-    <style>
-      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RandomQuoteAPI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
+    :root {
+      --bg: #F7F6F3;
+      --surface: #FFFFFF;
+      --border: rgba(0,0,0,0.08);
+      --border-hover: rgba(0,0,0,0.18);
+      --text-primary: #1A1916;
+      --text-secondary: #6B6860;
+      --text-tertiary: #A09E99;
+      --green: #2D7A4F;
+      --green-bg: #F0F9F4;
+      --sans: 'DM Sans', system-ui, sans-serif;
+      --mono: 'DM Mono', 'SF Mono', monospace;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #141412;
+        --surface: #1E1D1B;
+        --border: rgba(255,255,255,0.08);
+        --border-hover: rgba(255,255,255,0.18);
+        --text-primary: #F0EEE9;
+        --text-secondary: #9A9890;
+        --text-tertiary: #5C5A56;
+        --green: #4CAF77;
+        --green-bg: #0F2018;
       }
+    }
 
-      body {
-        font-family: "Inter", system-ui, -apple-system, sans-serif;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        min-height: 100vh;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 20px;
-        position: relative;
-        overflow-x: hidden;
-      }
+    html, body {
+      height: 100%;
+      font-family: var(--sans);
+      background: var(--bg);
+      color: var(--text-primary);
+      font-size: 15px;
+      line-height: 1.6;
+      font-weight: 300;
+      -webkit-font-smoothing: antialiased;
+    }
 
-      /* Floating particles background */
-      body::before {
-        content: "";
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        background-image: radial-gradient(
-            2px 2px at 20px 30px,
-            rgba(255, 255, 255, 0.3),
-            transparent
-          ),
-          radial-gradient(
-            2px 2px at 40px 70px,
-            rgba(255, 255, 255, 0.2),
-            transparent
-          ),
-          radial-gradient(
-            1px 1px at 90px 40px,
-            rgba(255, 255, 255, 0.4),
-            transparent
-          ),
-          radial-gradient(
-            1px 1px at 130px 80px,
-            rgba(255, 255, 255, 0.2),
-            transparent
-          ),
-          radial-gradient(
-            2px 2px at 160px 30px,
-            rgba(255, 255, 255, 0.3),
-            transparent
-          );
-        background-repeat: repeat;
-        background-size: 200px 100px;
-        animation: sparkle 20s linear infinite;
-        pointer-events: none;
-      }
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 2rem;
+    }
 
-      @keyframes sparkle {
-        0% {
-          transform: translateY(0);
-        }
-        100% {
-          transform: translateY(-200px);
-        }
-      }
+    .wrap {
+      max-width: 540px;
+      width: 100%;
+    }
 
-      .container {
-        background: rgba(255, 255, 255, 0.95);
-        backdrop-filter: blur(20px);
-        border-radius: 24px;
-        padding: 60px;
-        max-width: 600px;
-        width: 100%;
-        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15),
-          0 0 0 1px rgba(255, 255, 255, 0.2),
-          inset 0 1px 0 rgba(255, 255, 255, 0.5);
-        position: relative;
-        transform: translateY(0);
-        animation: slideUp 0.8s ease-out;
-      }
+    /* Header */
+    .header {
+      margin-bottom: 2.5rem;
+    }
 
-      @keyframes slideUp {
-        from {
-          opacity: 0;
-          transform: translateY(30px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
+    .label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text-tertiary);
+      margin-bottom: 0.75rem;
+    }
 
-      .header {
-        text-align: center;
-        margin-bottom: 50px;
-        position: relative;
-      }
+    .label::before {
+      content: '';
+      display: block;
+      width: 20px;
+      height: 1px;
+      background: var(--text-tertiary);
+    }
 
-      .title {
-        color: #2d3748;
-        font-size: 3em;
-        font-weight: 700;
-        margin: 0 0 12px 0;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        animation: titleGlow 2s ease-in-out infinite alternate;
-      }
+    h1 {
+      font-size: 2.2rem;
+      font-weight: 500;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      color: var(--text-primary);
+      margin-bottom: 0.6rem;
+    }
 
-      @keyframes titleGlow {
-        0% {
-          filter: drop-shadow(0 0 5px rgba(102, 126, 234, 0.3));
-        }
-        100% {
-          filter: drop-shadow(0 0 20px rgba(102, 126, 234, 0.5));
-        }
-      }
+    h1 span {
+      color: var(--text-tertiary);
+      font-weight: 300;
+    }
 
-      .brand {
-        background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        font-style: italic;
-        font-weight: 600;
-      }
+    .subtitle {
+      font-size: 15px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
 
-      .subtitle {
-        color: #718096;
-        margin: 0;
-        font-size: 1.2em;
-        font-weight: 400;
-        opacity: 0;
-        animation: fadeIn 1s ease-out 0.3s forwards;
-      }
+    /* Endpoint cards */
+    .cards {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 2rem;
+    }
 
-      @keyframes fadeIn {
-        to {
-          opacity: 1;
-        }
-      }
+    .card {
+      background: var(--surface);
+      border: 0.5px solid var(--border);
+      border-radius: 12px;
+      padding: 1.1rem 1.4rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      transition: border-color 0.2s;
+    }
 
-      .api-cards {
-        margin-bottom: 50px;
-      }
+    .card:hover {
+      border-color: var(--border-hover);
+    }
 
-      .api-card {
-        background: linear-gradient(
-          135deg,
-          rgba(102, 126, 234, 0.05) 0%,
-          rgba(118, 75, 162, 0.05) 100%
-        );
-        border: 1px solid rgba(102, 126, 234, 0.1);
-        border-radius: 16px;
-        padding: 32px;
-        margin-bottom: 24px;
-        position: relative;
-        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        overflow: hidden;
-      }
+    .card-left { flex: 1; min-width: 0; }
 
-      .api-card::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(
-          135deg,
-          rgba(102, 126, 234, 0.1) 0%,
-          rgba(118, 75, 162, 0.1) 100%
-        );
-        opacity: 0;
-        transition: opacity 0.3s ease;
-        z-index: -1;
-      }
+    .endpoint-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 0.3rem;
+    }
 
-      .api-card:hover {
-        transform: translateY(-8px);
-        box-shadow: 0 25px 50px rgba(102, 126, 234, 0.15),
-          0 0 0 1px rgba(102, 126, 234, 0.2);
-      }
+    .method {
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--green);
+      background: var(--green-bg);
+      border: 0.5px solid rgba(45,122,79,0.2);
+      border-radius: 4px;
+      padding: 2px 7px;
+      letter-spacing: 0.04em;
+    }
 
-      .api-card:hover::before {
-        opacity: 1;
-      }
+    .path {
+      font-family: var(--mono);
+      font-size: 13px;
+      color: var(--text-primary);
+      font-weight: 400;
+    }
 
-      .endpoint {
-        background: linear-gradient(135deg, #2d3748 0%, #4a5568 100%);
-        color: #48bb78;
-        padding: 10px 16px;
-        border-radius: 10px;
-        font-family: "SF Mono", "Monaco", "Inconsolata", "Roboto Mono",
-          monospace;
-        font-weight: 600;
-        display: inline-block;
-        margin-bottom: 16px;
-        font-size: 0.95em;
-        position: relative;
-        overflow: hidden;
-      }
+    .card-desc {
+      font-size: 13px;
+      color: var(--text-secondary);
+    }
 
-      .endpoint::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: -100%;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(
-          90deg,
-          transparent,
-          rgba(255, 255, 255, 0.2),
-          transparent
-        );
-        transition: left 0.5s;
-      }
+    .try-btn {
+      flex-shrink: 0;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-family: var(--sans);
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-primary);
+      text-decoration: none;
+      border: 0.5px solid var(--border-hover);
+      border-radius: 6px;
+      padding: 0.4rem 0.8rem;
+      background: transparent;
+      transition: background 0.2s, border-color 0.2s;
+      white-space: nowrap;
+    }
 
-      .api-card:hover .endpoint::before {
-        left: 100%;
-      }
+    .try-btn:hover {
+      background: var(--bg);
+      border-color: var(--text-secondary);
+    }
 
-      .description {
-        color: #4a5568;
-        margin: 16px 0 24px 0;
-        font-size: 1.1em;
-        line-height: 1.6;
-      }
+    .try-btn svg {
+      width: 11px;
+      height: 11px;
+    }
 
-      .btn {
-        background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
-        color: white;
-        text-decoration: none;
-        padding: 14px 28px;
-        border-radius: 12px;
-        font-weight: 600;
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        transition: all 0.3s ease;
-        position: relative;
-        overflow: hidden;
-        font-size: 1.05em;
-      }
+    /* Footer */
+    .footer {
+      border-top: 0.5px solid var(--border);
+      padding-top: 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
 
-      .btn::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 0;
-        height: 100%;
-        background: linear-gradient(135deg, #38a169 0%, #2f855a 100%);
-        transition: width 0.3s ease;
-        z-index: -1;
-      }
+    .footer-note {
+      font-size: 12px;
+      color: var(--text-tertiary);
+    }
 
-      .btn:hover::before {
-        width: 100%;
-      }
+    .github-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
 
-      .btn:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 10px 25px rgba(72, 187, 120, 0.3);
-      }
+    .github-link:hover { color: var(--text-primary); }
 
-      .footer {
-        text-align: center;
-        padding-top: 40px;
-        border-top: 1px solid rgba(102, 126, 234, 0.1);
-        position: relative;
-      }
+    .github-link svg {
+      width: 15px;
+      height: 15px;
+    }
 
-      .footer::before {
-        content: "";
-        position: absolute;
-        top: -1px;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 60px;
-        height: 2px;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        border-radius: 2px;
-      }
+    @media (max-width: 480px) {
+      h1 { font-size: 1.7rem; }
+      .card { flex-direction: column; align-items: flex-start; }
+      .footer { flex-direction: column; gap: 0.75rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
 
-      .footer-text {
-        color: #718096;
-        margin: 0 0 20px 0;
-        font-size: 1em;
-        font-weight: 500;
-      }
+    <div class="header">
+      <div class="label">REST API</div>
+      <h1>RandomQuote<span>API</span></h1>
+      <p class="subtitle">A simple, open API for inspirational quotes. No auth required.</p>
+    </div>
 
-      .github-btn {
-        background: linear-gradient(135deg, #2d3748 0%, #4a5568 100%);
-        color: white;
-        text-decoration: none;
-        padding: 16px 32px;
-        border-radius: 12px;
-        font-weight: 600;
-        display: inline-flex;
-        align-items: center;
-        gap: 12px;
-        transition: all 0.3s ease;
-        position: relative;
-        overflow: hidden;
-        font-size: 1.05em;
-      }
-
-      .github-btn::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 0;
-        height: 100%;
-        background: linear-gradient(135deg, #4a5568 0%, #718096 100%);
-        transition: width 0.3s ease;
-        z-index: -1;
-      }
-
-      .github-btn:hover::before {
-        width: 100%;
-      }
-
-      .github-btn:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 10px 25px rgba(45, 55, 72, 0.3);
-      }
-
-      .icon {
-        font-size: 1.2em;
-      }
-
-      /* Mobile responsiveness */
-      @media (max-width: 768px) {
-        .container {
-          padding: 20px;
-        }
-
-        .title {
-          font-size: 2em;
-        }
-
-        .api-card {
-          padding: 20px;
-        }
-
-        .header {
-          margin-bottom: 15px;
-        }
-
-        .api-cards {
-          margin-bottom: 15px;
-          gap: 12px;
-        }
-
-        .footer {
-          padding-top: 15px;
-        }
-
-        .description {
-          font-size: 0.95em;
-          margin: 10px 0 15px 0;
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <div class="container">
-      <div class="header">
-        <h1 class="title">
-          Welcome to <span class="brand">RandomQuoteAPI</span>
-        </h1>
-        <p class="subtitle">
-          ✨ Find inspiration through beautifully curated quotes ✨
-        </p>
+    <div class="cards">
+      <div class="card">
+        <div class="card-left">
+          <div class="endpoint-row">
+            <span class="method">GET</span>
+            <span class="path">/random</span>
+          </div>
+          <p class="card-desc">Returns a single random quote from the collection</p>
+        </div>
+        <a href="https://random-quote-api-five.vercel.app/random" target="_blank" class="try-btn">
+          Try it
+          <svg viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M2.5 9.5L9.5 2.5M9.5 2.5H4.5M9.5 2.5V7.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
       </div>
 
-      <div class="api-cards">
-        <div class="api-card">
-          <div class="endpoint">/random</div>
-          <p class="description">
-            Get a random inspirational quote to brighten your day
-          </p>
-          <a
-            href="https://random-quote-api-five.vercel.app/random"
-            target="_blank"
-            class="btn"
-          >
-            <i class="fas fa-random icon"></i>
-            Try Random Quote
-          </a>
+      <div class="card">
+        <div class="card-left">
+          <div class="endpoint-row">
+            <span class="method">GET</span>
+            <span class="path">/quotes</span>
+          </div>
+          <p class="card-desc">Browse the full collection of curated quotes</p>
         </div>
-
-        <div class="api-card">
-          <div class="endpoint">/quotes</div>
-          <p class="description">
-            Explore our complete collection of wisdom and inspiration
-          </p>
-          <a
-            href="https://random-quote-api-five.vercel.app/quotes"
-            target="_blank"
-            class="btn"
-          >
-            <i class="fas fa-book-open icon"></i>
-            Browse All Quotes
-          </a>
-        </div>
-      </div>
-
-      <div class="footer">
-        <p class="footer-text">🚀 Source Code Available</p>
-        <a
-          href="https://github.com/VinayakGubber/RandomQuoteAPI"
-          target="_blank"
-          class="github-btn"
-        >
-          <i class="fab fa-github icon"></i>
-          View on GitHub
+        <a href="https://random-quote-api-five.vercel.app/quotes" target="_blank" class="try-btn">
+          Try it
+          <svg viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M2.5 9.5L9.5 2.5M9.5 2.5H4.5M9.5 2.5V7.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
         </a>
       </div>
     </div>
-  </body>
+
+    <div class="footer">
+      <p class="footer-note">No API key &nbsp;·&nbsp; No rate limits &nbsp;·&nbsp; Open source</p>
+      <a href="https://github.com/VinayakGubber/RandomQuoteAPI" target="_blank" class="github-link">
+        <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
+        </svg>
+        VinayakGubber/RandomQuoteAPI
+      </a>
+    </div>
+
+  </div>
+</body>
 </html>
